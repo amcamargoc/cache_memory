@@ -7,10 +7,13 @@
     <link rel="stylesheet" type="text/css" href="stylesheets/icons/css/font-awesome.css">
   </head>
   <body>
-
-    Numero de bloques de la cache <input type="text" data-bind="textInput: cache_size"/> <br>
-    Direcciones de Ram requeridas <textarea type="text" data-bind="textInput: ram_addresses"> </textarea>
-    Empezar test <button data-bind="click: cache_management">Start</button>
+    
+    Numero de bloques de la cache <input type="text" data-bind="textInput: cacheSize"/> <br>
+    Direcciones de Ram requeridas <textarea type="text" data-bind="textInput: ramAddresses"> </textarea> <br>
+    Empezar test <button type="button" data-bind="click: replaceIt"> Start </button>
+    <ul data-bind="foreach: cacheMemory">
+      <li><span data-bind="text: $data.h" > </span></li>
+    </ul>
     <table>
       <thead>
       </thead>
