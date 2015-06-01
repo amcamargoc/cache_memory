@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Il parziale finale di PC2</title>
+    <link rel="stylesheet" type="text/css" href="stylesheets/bootstrap/css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/icons/css/font-awesome.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+  </head>
+  <body>
+    <ul data-bind="foreach: cacheMemory">
+      <li><span data-bind="text: $data.tag" > </span></li>
+    </ul>
+    <button data-bind="click: iterateOnCache" >Iterar</button>
+    <script src="javascripts/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <script src="javascripts/jquery-ui-1.10.1.custom.min.js" type="text/javascript"></script>
+    <script src="stylesheets/bootstrap/js/bootstrap.min.js" type="text/javascript"> </script>
+    <script src="javascripts/knockout-3.3.0.js" type="text/javascript"></script>
+    <script src="javascripts/view_models/ViewModelCacheMemory.js" type="text/javascript"></script>
+  </body>
+  </body>
+</html>
