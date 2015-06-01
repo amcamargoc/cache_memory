@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
   </head>
   <body>
-    <div class="container">
+    <div class="container" id="menu">
       <div class="row row-centered">
         <div class="page-header"> <h1>Cache mapping</h1> </div>
         <div class="col-xs-12 col-sm-6 col-md-8"><button class="btn btn-large btn-block" data-bind="click: cacheDirect"> Direct mapped </button></div>
@@ -19,8 +19,32 @@
       </div>
      </div>
     
-    <div id="cacheGame">
-       
+    <div class= "container" id="cacheGame">
+      <ul data-bind="foreach: cacheMemory">
+        <li><span data-bind="text: $data.tag" > </span></li>
+      </ul>
+       <button data-bind="click: iterateOnCache">Iterar</button>
+      <button data-bind="click: stop">Stop</button>
+
+      <table>
+        <thead>
+          <tr> 
+            <th class="header">Cache</th>
+            <th class="header">#</th>
+            <th class="header">Block</th>
+            <th class="header">Miss</th>
+            <th class="header">Hit</th>
+          </tr>
+        </thead>
+        <tbody data-bind="foreach: contentCacheTable">
+          <tr>
+            <td data-bind="text: $data.ramAddress"></td>
+            <td data-bind="text: $data.blockTag"></td>
+            <td data-bind="text: $data.state == 'miss'? 'X':''"></td>
+            <td data-bind="text: $data.state == 'miss'? '':'X'"></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="false" style="display: none;">
