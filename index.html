@@ -14,15 +14,14 @@
           <div class="row row-centered">
             <div class="page-header"> <h1>Cache mapping</h1> </div>
             <div class="col-xs-12"><button class="btn btn-default btn-large btn-block" data-bind="click: cacheDirect"> Direct mapped </button></div>
-            <div class="col-xs-12"> <button class="btn btn-default btn-large btn-block" > Set associative </button> </div>
-            <div class="col-xs-12"> <button class="btn btn-default btn-large btn-block" > Fully associative </button> </div>
-            <div class="col-xs-12"> <button class="btn btn-default btn-large btn-block" > Mix </button> </div>
+            <div class="col-xs-12"> <button class="btn btn-default btn-large btn-block" data-bind="click: cacheAssociative">Set associative </button> </div>
+            <div class="col-xs-12"> <button class="btn btn-default btn-large btn-block" data-bind="click: cacheFullAssociative" > Fully associative </button> </div>
             <div class="col-xs-12"> <button class="btn btn-default btn-large btn-block" data-toggle="modal" data-target="#exampleModal">Settings</button></div>
           </div>
         </div>
         <div class="col-lg-12">
           <div id="cacheGame">
-            <div class="page-header"> <h1>Cache game</h1> </div>
+            <div class="page-header"> <h1>Cache game <small data-bind="text: gameType"> </small></h1> </div>
             <div class="row row-centered">
               <div class="col-lg-6">
                 <div class="table-responsive">
@@ -37,7 +36,6 @@
                       <tr> <td data-bind="text: $data.tag, css: {highligth: $data.select == true}"  > </td></tr>
                     </tbody>
                   </table>
-                  
                 </div>
               </div>
               <div class="col-lg-6">
@@ -56,7 +54,7 @@
             <table class="table table-bordered" >
               <thead>
                 <tr> 
-                  <th class="header">Ram Adrress</th>
+                  <th class="header">Ram Address</th>
                   <th class="header">Block</th>
                   <th class="header">Miss</th>
                   <th class="header">Hit</th>
