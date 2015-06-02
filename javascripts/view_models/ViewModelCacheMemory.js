@@ -109,9 +109,12 @@ function CacheMemoryVM() {
   })
 
   self.updateRam = ko.computed(function() {
-    //self.iterateRam([])
+    self.iterateRam([])
+    console.log(self.iterateRam())
     for (var i in self.addressesArray()) {
-      self.iterateRam.push({data: self.addressesArray()[i], active: self.currentAddress == i ? true : false })
+      console.log(i)
+      self.iterateRam.push({data: self.addressesArray()[i], active: (self.currentAddress == i) ? true : false })
+      console.log(self.iterateRam())
     }
   })
 
@@ -136,9 +139,11 @@ function CacheMemoryVM() {
       if(self.correctAnswer(realIndex)) {
         console.log('estaa buenaaa hptaa')
         console.log(self.currentAddress)
-        self.updateRam()
         self.contentCacheTable.push(cacheManagement.iterations[self.currentAddress])
         self.currentAddress += 1
+        if (self.currentAddress != cacheManagement.ramAddresses.length) {
+          self.iterateRam.replace(self.iterateRam()[self.currentAddress], {data: self.iterateRam()[self.currentAddress].data, active: false})
+        }
         if (self.currentAddress == cacheManagement.ramAddresses.length) {
           $.notify({
             message: 'wait a second please... '
