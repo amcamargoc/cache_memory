@@ -13,3 +13,7 @@ input.form-control, textarea.form-control {
 th .btn {
   border-radius: 20px;
 }
+
+a {
+  color: #808080 !important;
+}

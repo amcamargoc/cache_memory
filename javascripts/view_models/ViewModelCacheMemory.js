@@ -292,3 +292,7 @@ $(document).ready(function() {
   document.getElementById('cacheGame').className = 'hide'
   document.getElementById('menu').className = 'show'
 })
+
+reloadPage = function() {
+ location.reload() 
+}
