@@ -163,6 +163,7 @@ function CacheMemoryVM() {
   self.contentCacheTable = ko.observableArray()
   self.iterateRam = ko.observableArray()
   self.gameType = ko.observable('')
+  self.attemps = ko.observable(0)
 
   self.addressesArray = ko.computed(function() {
     return self.ramAddresses().trim().split('\n')
@@ -179,7 +180,7 @@ function CacheMemoryVM() {
 
   self.updateRam = ko.computed(function() {
     self.iterateRam([])
-    console.log(self.iterateRam())
+    self.iterateRam()
     for(var j = 0; j < self.addressesArray().length; j++) {
       self.iterateRam.push({data: self.addressesArray()[j], active: (self.currentAddress === j) ? true : false })
     }
@@ -190,7 +191,7 @@ function CacheMemoryVM() {
   }
 
   self.cacheDirect = function() {
-    self.gameType('Direct')
+    self.gameType('Direct mapped')
     self.contentCacheTable([])
     cacheManagement = new CacheMemoryManagement(parseInt(self.cacheSize()), self.addressesArray(), self.sets())
     cacheManagement.directMapping()
@@ -201,6 +202,7 @@ function CacheMemoryVM() {
   }
 
   self.cacheAssociative = function() {
+    self.gameType('Set associative')
     self.contentCacheTable([])
     cacheManagement = new CacheMemoryManagement(parseInt(self.cacheSize()), self.addressesArray(), parseInt(self.sets()))
     cacheManagement.associativeCache(false)
@@ -211,6 +213,7 @@ function CacheMemoryVM() {
   }
 
   self.cacheFullAssociative = function() {
+    self.gameType('Fully associative')
     self.contentCacheTable([])
     cacheManagement = new CacheMemoryManagement(parseInt(self.cacheSize()), self.addressesArray(), self.cacheSize())
     cacheManagement.associativeCache(true)
@@ -221,6 +224,8 @@ function CacheMemoryVM() {
   }
 
   self.stop = function() {
+    var previousValue = self.attemps()
+    self.attemps(previousValue + 1)
     realIndex = indexCache  === 0 ? self.cacheSize() - 1 : indexCache - 1
     if (self.currentAddress != cacheManagement.ramAddresses.length) {
       if(self.correctAnswer(realIndex)) {
@@ -233,16 +238,26 @@ function CacheMemoryVM() {
         }
         if (self.currentAddress == cacheManagement.ramAddresses.length) {
           $.notify({
-            message: 'You Win!!'
+            message: 'You Win!! wait a second please'
           })
           clearInterval(self.thread)
+          self.iterateRam([])
+          self.iterateRam()
+          for(var j = 0; j < self.addressesArray().length; j++) {
+            self.iterateRam.push({data: self.addressesArray()[j], active: false})
+          }
+          self.cacheMemory([])
+          for (var i = 0; i < self.cacheSize(); i++) {
+            self.cacheMemory.push( {tag: i, select: false} )
+          }
+          $('#stop').addClass('hide')
           setTimeout(function() {
             self.change = true
             self.currentAddress = 0
             document.getElementById('cacheGame').className = 'hide'
             document.getElementById('menu').className = 'show'
-            location.href = "#menu"
-          }, 3000)
+            location.reload()
+          }, 5000)
         }
       }
     }
@@ -273,8 +288,7 @@ function CacheMemoryVM() {
 control = new CacheMemoryVM()
 ko.applyBindings(control)
 
-$( document ).ready(function() {
+$(document).ready(function() {
   document.getElementById('cacheGame').className = 'hide'
   document.getElementById('menu').className = 'show'
-
 })

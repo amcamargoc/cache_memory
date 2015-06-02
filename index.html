@@ -21,7 +21,7 @@
         </div>
         <div class="col-lg-12">
           <div id="cacheGame">
-            <div class="page-header"> <h1>Cache game <small data-bind="text: gameType"> </small></h1> </div>
+            <div class="page-header"> <h1>Cache game <small data-bind="text: gameType"> </small> <br> <small>Number of attemps</small> <small data-bind="text: attemps"></small></h1> </div>
             <div class="row row-centered">
               <div class="col-lg-6">
                 <div class="table-responsive">
@@ -29,7 +29,7 @@
                     <thead>
                       <th>                        
                         Memory Cache
-                        <button class="btn btn-danger pull-right" data-bind="click: stop">Stop</button>
+                        <button class="btn btn-danger pull-right" id="stop" data-bind="click: stop">Stop</button>
                       </th>
                     </thead>
                     <tbody data-bind="foreach: cacheMemory">
