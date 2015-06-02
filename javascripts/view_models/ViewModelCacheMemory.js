@@ -85,15 +85,16 @@ function CacheMemoryVM() {
   
 
   // Attributes
-  var indexCache = 0, currentAddress = 0
-  self.cacheManagement = null
+  var indexCache = 0
+  self.currentAddress = 0
   self.change = true
   self.cacheSize = ko.observable(4)
   self.sets = ko.observable(2)
-  self.ramAddresses = ko.observable("0\n8\n0")
+  self.ramAddresses = ko.observable("0\n0\n0")
   self.cacheMemory = ko.observableArray()
   self.contentCacheTable = ko.observableArray()
-    
+  self.iterateRam = ko.observableArray()
+      
   self.addressesArray = ko.computed(function() {
     return self.ramAddresses().trim().split('\n')
   })
@@ -102,9 +103,16 @@ function CacheMemoryVM() {
     if(self.change === true) {
       self.cacheMemory([])
       for (var i = 0; i < self.cacheSize(); i++) {
-        self.cacheMemory.push( {tag: i} )
+        self.cacheMemory.push( {tag: i, select: false} )
       }
     } 
+  })
+
+  self.updateRam = ko.computed(function() {
+    //self.iterateRam([])
+    for (var i in self.addressesArray()) {
+      self.iterateRam.push({data: self.addressesArray()[i], active: self.currentAddress == i ? true : false })
+    }
   })
 
   self.replace = function(index, element) {
@@ -112,34 +120,45 @@ function CacheMemoryVM() {
   }
 
   self.cacheDirect = function() {
-    cacheManagement = new CacheMemoryManagement(control.cacheSize(), control.addressesArray())
+    cacheManagement = new CacheMemoryManagement(self.cacheSize(), self.addressesArray())
     cacheManagement.directMapping()
+    self.iterateOnCache()
     document.getElementById('menu').className = 'hide'
     location.href = "#cacheGame"
     document.getElementById('cacheGame').className = 'show'
   }
 
+
+
   self.stop = function() {
     realIndex = indexCache  === 0 ? self.cacheSize() - 1 : indexCache - 1
-    if(self.correctAnswer(realIndex)) {
-      currentAddress += 1
-      console.log('estaa buenaaa hptaa')
-      console.log(currentAddress)
-      self.contentCacheTable.push(cacheManagement.iterations[currentAddress])
-      if (currentAddress === cacheManagement.ramAddresses.length) {
-        clearInterval(self.thread)
-        self.change = true
-        self.fillMemoryCache()
-        currentAddress = 0
-        location.href = "#menu"
-        document.getElementById('cacheGame').className = 'hide'
-        document.getElementById('menu').className = 'show'
+    if (self.currentAddress != cacheManagement.ramAddresses.length) {
+      if(self.correctAnswer(realIndex)) {
+        console.log('estaa buenaaa hptaa')
+        console.log(self.currentAddress)
+        self.updateRam()
+        self.contentCacheTable.push(cacheManagement.iterations[self.currentAddress])
+        self.currentAddress += 1
+        if (self.currentAddress == cacheManagement.ramAddresses.length) {
+          $.notify({
+            message: 'wait a second please... '
+          })
+          clearInterval(self.thread)
+          setTimeout(function() {
+            self.change = true
+            self.currentAddress = 0
+            document.getElementById('cacheGame').className = 'hide'
+            document.getElementById('menu').className = 'show'
+            location.href = "#menu"
+          }, 3000)
+        }
       }
-    } 
+    }
   }
 
+  
   self.correctAnswer = function(address) {
-    return cacheManagement.iterations[currentAddress].blockTag === address
+    return cacheManagement.iterations[self.currentAddress].blockTag === address
   }
 
   self.iterateOnCache = function() {
@@ -147,7 +166,7 @@ function CacheMemoryVM() {
     self.change = false
     self.thread = setInterval(function() { 
       
-      self.replace(indexCache, {tag: 'here'})
+      self.replace(indexCache, {tag: indexCache, select: true})
       if (indexCache  === self.cacheSize() - 1) {
         self.replace(indexCache - 1, {tag: indexCache - 1})
         indexCache = 0
@@ -155,7 +174,7 @@ function CacheMemoryVM() {
         indexCache === 0 ? self.replace(self.cacheSize() - 1, {tag: self.cacheSize() - 1}) : self.replace(indexCache - 1, {tag: indexCache - 1})
         indexCache =  indexCache + 1
       }      
-    }, 2000)
+    }, 1000)
   }
 }
 

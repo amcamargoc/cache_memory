@@ -1,7 +1,15 @@
-h1, h2, h3, h4, h5, div.container {
+h1, h2, h3, h4, h5, thead th, div.container {
   text-align: center;
 }
 
 input.form-control, textarea.form-control {
   width: 96%;
+}
+
+.highligth {
+  background: gray;
+}
+
+th .btn {
+  border-radius: 20px;
 }

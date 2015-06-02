@@ -2,88 +2,116 @@
   <html>
   <head>
     <title>Il parziale finale di PC2</title>
-    <link rel="stylesheet" type="text/css" href="stylesheets/bootstrap/css/bootstrap-responsive.min.css">
-    <link rel="stylesheet" type="text/css" href="stylesheets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="stylesheets/icons/css/font-awesome.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
   </head>
   <body>
-    <div class="container" id="menu">
-      <div class="row row-centered">
-        <div class="page-header"> <h1>Cache mapping</h1> </div>
-        <div class="col-xs-12 col-sm-6 col-md-8"><button class="btn btn-large btn-block" data-bind="click: cacheDirect"> Direct mapped </button></div>
-        <div class="col-xs-12 col-sm-6 col-md-8"> <button class="btn btn-large btn-block" > Set associative </button> </div>
-        <div class="col-xs-12 col-sm-6 col-md-8"> <button class="btn btn-large btn-block" > Fully associative </button> </div>
-        <div class="col-xs-12 col-sm-6 col-md-8"> <button class="btn btn-large btn-block" > Mix </button> </div>
-        <div class="col-xs-12 col-sm-6 col-md-8"> <button class="btn btn-large btn-block" data-toggle="modal" data-target="#exampleModal">Settings</button></div>
-      </div>
-     </div>
-    
-    <div class= "container" id="cacheGame">
-      <ul data-bind="foreach: cacheMemory">
-        <li><span data-bind="text: $data.tag" > </span></li>
-      </ul>
-       <button data-bind="click: iterateOnCache">Iterar</button>
-      <button data-bind="click: stop">Stop</button>
-
-      <table>
-        <thead>
-          <tr> 
-            <th class="header">Cache</th>
-            <th class="header">#</th>
-            <th class="header">Block</th>
-            <th class="header">Miss</th>
-            <th class="header">Hit</th>
-          </tr>
-        </thead>
-        <tbody data-bind="foreach: contentCacheTable">
-          <tr>
-            <td data-bind="text: $data.ramAddress"></td>
-            <td data-bind="text: $data.blockTag"></td>
-            <td data-bind="text: $data.state == 'miss'? 'X':''"></td>
-            <td data-bind="text: $data.state == 'miss'? '':'X'"></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="false" style="display: none;">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">Settings</h4>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12" id="menu">
+          <div class="row row-centered">
+            <div class="page-header"> <h1>Cache mapping</h1> </div>
+            <div class="col-xs-12"><button class="btn btn-default btn-large btn-block" data-bind="click: cacheDirect"> Direct mapped </button></div>
+            <div class="col-xs-12"> <button class="btn btn-default btn-large btn-block" > Set associative </button> </div>
+            <div class="col-xs-12"> <button class="btn btn-default btn-large btn-block" > Fully associative </button> </div>
+            <div class="col-xs-12"> <button class="btn btn-default btn-large btn-block" > Mix </button> </div>
+            <div class="col-xs-12"> <button class="btn btn-default btn-large btn-block" data-toggle="modal" data-target="#exampleModal">Settings</button></div>
           </div>
-          <div class="modal-body">
-            <form>
-              <div class="form-group">
-                <label class="control-label">Number of blocks in cache</label>
-                <input type="text" class="form-control" data-bind="textInput: cacheSize" >
+        </div>
+        <div class="col-lg-12">
+          <div id="cacheGame">
+            <div class="page-header"> <h1>Cache game</h1> </div>
+            <div class="row row-centered">
+              <div class="col-lg-6">
+                <div class="table-responsive">
+                  <table class="table table-bordered">
+                    <thead>
+                      <th>                        
+                        Memory Cache
+                        <button class="btn btn-danger pull-right" data-bind="click: stop">Stop</button>
+                      </th>
+                    </thead>
+                    <tbody data-bind="foreach: cacheMemory">
+                      <tr> <td data-bind="text: $data.tag, css: {highligth: $data.select == true}"  > </td></tr>
+                    </tbody>
+                  </table>
+                  
+                </div>
               </div>
-              <div class="form-group">
-                <label class="control-label">Number of sets in  cache associative</label>
-                <input type="text" class="form-control" data-bind="textInput: sets">
-              </div>
-              <div class="form-group">
-                <label class="control-label">Block addresses accessed (Addresses RAM)</label>
-                <textarea class="form-control" rows="10" data-bind="textInput: ramAddresses"></textarea>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close and save</button>
+              <div class="col-lg-6">
+                <div class="table-responsive">
+                  <table class="table table-bordered">
+                    <thead>
+                      <th>Addresses RAM request </th>
+                    </thead>
+                    <tbody  data-bind="foreach: iterateRam">
+                      <tr> <td data-bind="text: $data.data,  css: {highligth: $data.active == true }"> </td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>  
+            </div>
+            <table class="table table-bordered" >
+              <thead>
+                <tr> 
+                  <th class="header">Ram Adrress</th>
+                  <th class="header">Block</th>
+                  <th class="header">Miss</th>
+                  <th class="header">Hit</th>
+                </tr>
+              </thead>
+              <tbody data-bind="foreach: contentCacheTable">
+                  <tr>
+                  <td data-bind="text: $data.ramAddress"></td>
+                  <td data-bind="text: $data.blockTag"></td>
+                  <td data-bind="text: $data.state == 'miss'? 'X':' '"></td>
+                  <td data-bind="text: $data.state == 'miss'? ' ':'X'"></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
-    </div>
-   
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="false" style="display: none;">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Settings</h4>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                  <label class="control-label">Number of blocks in cache</label>
+                  <input type="text" class="form-control" data-bind="textInput: cacheSize" >
+                </div>
+                <div class="form-group">
+                  <label class="control-label">Number of sets in  cache associative</label>
+                  <input type="text" class="form-control" data-bind="textInput: sets">
+                </div>
+                <div class="form-group">
+                  <label class="control-label">Block addresses accessed (Addresses RAM)</label>
+                  <textarea class="form-control" rows="10" data-bind="textInput: ramAddresses"></textarea>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close and save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+   </div>
     <!-- Game  -->
 
     <!-- End Game  -->    
     <script src="javascripts/jquery-1.9.1.min.js" type="text/javascript"></script>
     <script src="javascripts/jquery-ui-1.10.1.custom.min.js" type="text/javascript"></script>
-    <script src="stylesheets/bootstrap/js/bootstrap.min.js" type="text/javascript"> </script>
+    <script src="bootstrap/js/bootstrap.min.js" type="text/javascript"> </script>
     <script src="javascripts/knockout-3.3.0.js" type="text/javascript"></script>
+    <script src="javascripts/bootstrap-notify.min.js" type="text/javascript"></script>
     <script src="javascripts/view_models/ViewModelCacheMemory.js" type="text/javascript"></script>
   </body>
 </html> 
