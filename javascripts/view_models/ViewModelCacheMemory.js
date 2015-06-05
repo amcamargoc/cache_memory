@@ -198,6 +198,7 @@ function CacheMemoryVM() {
     self.iterateOnCache()
     document.getElementById('menu').className = 'hide'
     location.href = "#cacheGame"
+    $('#instructionsGame').modal();
     document.getElementById('cacheGame').className = 'show'
   }
 
@@ -209,6 +210,7 @@ function CacheMemoryVM() {
     self.iterateOnCache()
     document.getElementById('menu').className = 'hide'
     location.href = "#cacheGame"
+    $('#instructionsGame').modal();
     document.getElementById('cacheGame').className = 'show'
   }
 
@@ -220,6 +222,7 @@ function CacheMemoryVM() {
     self.iterateOnCache()
     document.getElementById('menu').className = 'hide'
     location.href = "#cacheGame"
+    $('#instructionsGame').modal();
     document.getElementById('cacheGame').className = 'show'
   }
 
@@ -291,6 +294,8 @@ ko.applyBindings(control)
 $(document).ready(function() {
   document.getElementById('cacheGame').className = 'hide'
   document.getElementById('menu').className = 'show'
+  $('[data-toggle="tooltip"]').tooltip();
+  $('#instructionsModal').modal();
 })
 
 reloadPage = function() {
