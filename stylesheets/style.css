@@ -11,9 +11,9 @@ input.form-control, textarea.form-control {
 }
 
 th .btn {
-  border-radius: 20px;
+  border-radius: 21px;
 }
 
-a {
+a  {
   color: #808080 !important;
 }
